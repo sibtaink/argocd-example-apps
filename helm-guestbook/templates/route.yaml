@@ -1,0 +1,17 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: {{ template "helm-guestbook.fullname" . }}
+  labels:
+    app: {{ template "helm-guestbook.name" . }}
+    chart: {{ template "helm-guestbook.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  host: {{ template "helm-guestbook.fullname" . }}.192.168.99.100.nip.io
+  port:
+    targetPort: http
+  to:
+    kind: Service
+    name: {{ template "helm-guestbook.fullname" . }}
+    weight: 100
